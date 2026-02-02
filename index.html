@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fira+Code:wght@300;400;500&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"></script>
+   
     <style>
         :root {
             --nav-width: 50px;
@@ -34,7 +34,7 @@
             height: 100vh;
         }
 
-        /* Navigation Bar */
+        /* Navigation Bar //////////////////////////////////////////////////////*/
         .nav-bar {
             position: fixed;
             left: 0;
@@ -121,7 +121,7 @@
             background: var(--accent-2);
         }
 
-        /* Main Content */
+        /* Main stuff ///////////////////////////////////////////////////////////////////////*/
         .main-content {
             margin-left: var(--nav-width);
             height: 100vh;
@@ -147,7 +147,7 @@
             scroll-behavior: smooth;
         }
 
-        /* Background image with multiply blend mode */
+        /* backgroudnd testing ///////////////////////////////////// */
         .gallery-section::before {
             content: '';
             position: absolute;
@@ -164,7 +164,7 @@
             z-index: 0;
         }
 
-        /* Ensure background extends beyond viewport when scrolling */
+        /* back ground extension with view port code////////////////////////////// */
         .gallery-section::before {
             height: auto;
             min-height: 100vh;
@@ -194,12 +194,12 @@
             display: block;
         }
 
-        /* Make background extend with content when section scrolls */
+    
         .gallery-section.has-content::before {
             height: 100%;
         }
 
-        /* Grids */
+        /* Grids ///////////////////////////////////////////////////////////////////////////*/
         .grid-2col,
         .grid-3col,
         .grid-masonry {
@@ -218,7 +218,7 @@
             width: 33.333%;
         }
 
-        /* Media Items */
+        /* Media Items/////////////////////////////////////////////////////////////////// */
         .media-item {
             position: relative;
             background: transparent;
@@ -260,13 +260,13 @@
             display: block;
         }
 
-        /* Dark Sections */
+        /* Dark background Sections//////////////////////////////////////////////////////////////// */
         .section-dark {
             background: var(--bg-secondary);
             color: var(--text-light);
         }
 
-        /* Progress Indicator */
+        /* Tiny navigation bar */
         .progress-indicator {
             position: fixed;
             bottom: 2rem;
@@ -297,7 +297,7 @@
             transform: scale(1.05);
         }
 
-        /* Scrollbar */
+        /* Scrollbar on each page///////////////////////////////////////////////////////////////////*/
         .gallery-section::-webkit-scrollbar {
             width: 6px;
         }
@@ -315,7 +315,7 @@
             background: var(--accent-2);
         }
 
-        /* Bouncing Button */
+        /* Bouncing Button Testing //////////////////////////////////////// */
         .bouncing-button {
             position: fixed;
             width: 300px;
@@ -346,7 +346,7 @@
 </head>
 
 <body>
-    <!-- Navigation -->
+    <!-- Navigation //////////////////////////////////////////////////////////-->
     <nav class="nav-bar">
         <div class="nav-logo">HEAD</div>
         <div class="nav-menu">
@@ -358,7 +358,7 @@
         </div>
     </nav>
 
-    <!-- little navigation -->
+    <!-- little navigation ////////////////////////////////////////////////////-->
     <div class="progress-indicator">
         <div class="progress-dot active" style="background-image: url('image/red.png');" data-section="0"></div>
         <div class="progress-dot" style="background-image: url('image/blue.png');" data-section="1"></div>
@@ -367,12 +367,12 @@
         <div class="progress-dot" style="background-image: url('image/red.png');" data-section="4"></div>
     </div>
 
-    <!-- Bouncing Button - Change href to your link and src to your image -->
+    <!-- Bouncing Button test /////////////////////////////////////////////////////////////-->
     <a href="https://x.com/MrDog_2000" target="_blank" class="bouncing-button" id="bouncingButton">
         <img src="image/star.gif" alt="">
     </a>
 
-    <!-- Sections -->
+    <!-- ///////////////////////////////////////////////MAIN BEGINS ////////////////////////////////////////////////////////////////// -->
     <main class="main-content">
         <div class="sections-container" id="sectionsContainer">
 
@@ -734,7 +734,7 @@
         let isTransitioning = false;
         let masonryInstances = [];
 
-        // Initialize Masonry
+        ///////////////////  Masonry library for layout////////////////////////////
         function initMasonry() {
             if (typeof Masonry === 'undefined') return;
 
@@ -757,7 +757,7 @@
             });
         }
 
-        // Check scroll position
+        // scrolling functions /////////////////////////////////////////
         function isAtBottom(el) {
             return Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) < 5;
         }
@@ -766,7 +766,7 @@
             return el.scrollTop < 5;
         }
 
-        // Handle scrolling
+        // vertical scrolling thhreashhold  //////////////////////////////////////////////////////////
         sections.forEach((section) => {
             section.addEventListener('wheel', (e) => {
                 if (isTransitioning) return;
@@ -825,7 +825,7 @@
             });
         });
 
-        // Progress dots clicks
+        // littl enavigation  clicks//////////////////////////////////////////////////////////
         progressDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 currentSection = index;
@@ -834,7 +834,7 @@
             });
         });
 
-        // Logo click
+        // title (HEAD) click////////////////////////////////////////////////
         document.querySelector('.nav-logo').addEventListener('click', () => {
             currentSection = 0;
             scrollToSection(0);
@@ -872,14 +872,13 @@
             });
         }
 
-        // Bouncing Button Logic - DVD Style
+        // Bouncing  /////////////////////////////////////////////////////
         const bouncingButton = document.getElementById('bouncingButton');
         let x = Math.random() * (window.innerWidth - 120);
         let y = Math.random() * (window.innerHeight - 120);
         const buttonSize = 300;
-        const speed = 2; // DVD screensaver speed
-        
-        // DVD bounces at 45-degree angles - only diagonal movement
+        const speed = 2; 
+    
         let velocityX = speed;
         let velocityY = speed;
 
@@ -887,7 +886,7 @@
             x += velocityX;
             y += velocityY;
 
-            // Check collision with edges and bounce - DVD style (perfect reflection)
+    //collision detection with window edges
             if (x <= 0 || x >= window.innerWidth - buttonSize) {
                 velocityX = -velocityX;
                 x = x <= 0 ? 0 : window.innerWidth - buttonSize;
@@ -904,12 +903,11 @@
             requestAnimationFrame(animateBounce);
         }
 
-        // Start animation
+    
         animateBounce();
 
-        // Handle window resize
+// resizing for windows  /////////////////////////////////////////////////////
         window.addEventListener('resize', () => {
-            // Keep button within bounds after resize
             if (x > window.innerWidth - buttonSize) {
                 x = window.innerWidth - buttonSize;
             }
