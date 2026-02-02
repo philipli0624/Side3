@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fira+Code:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/imagesloaded@5.0.0/imagesloaded.pkgd.min.js"></script>
+    <style>
+        :root {
+            --nav-width: 50px;
+            --bg-primary: #f5f5f0;
+            --bg-secondary: #2d2d2d;
+            --accent-1: #6d5dff;
+            --accent-2: #ff2e63;
+            --text-dark: #1a1a1a;
+            --text-light: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-primary);
+            color: var(--text-dark);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--nav-width);
+            height: 100vh;
+            background: var(--bg-secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5vh 0;
+            z-index: 1000;
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(1rem, 1.8vh, 1.8rem);
+            color: var(--accent-1);
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: -0.04em;
+            margin-bottom: clamp(1rem, 3vh, 4rem);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .nav-logo:hover {
+            color: var(--accent-2);
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1rem, 2.5vh, 2.5rem);
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+            min-height: 0;
+        }
+
+        .nav-item {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: clamp(0.75rem, 1.5vh, 1rem);
+            color: #888;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 0;
+            background: var(--accent-1);
+            transition: height 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: var(--accent-1);
+        }
+
+        .nav-item:hover::before {
+            height: 100%;
+        }
+
+        .nav-item.active {
+            color: var(--text-light);
+        }
+
+        .nav-item.active::before {
+            height: 100%;
+            background: var(--accent-2);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--nav-width);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sections-container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gallery-section {
+            position: relative;
+            min-width: calc(100vw - var(--nav-width));
+            width: calc(100vw - var(--nav-width));
+            height: 100vh;
+            flex-shrink: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Background image with multiply blend mode */
+        .gallery-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            min-height: 100%;
+            background-image: var(--bg-image, none);
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Ensure background extends beyond viewport when scrolling */
+        .gallery-section::before {
+            height: auto;
+            min-height: 100vh;
+        }
+
+        .section-content {
+            padding: 0vh 0;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .grid-2col,
+        .grid-3col,
+        .grid-masonry {
+            margin: 0;
+            padding: 0;
+        }
+
+        .media-item {
+            margin: 0;
+        }
+
+        .image-slot img,
+        .video-slot video {
+            width: 100%;
+            display: block;
+        }
+
+        /* Make background extend with content when section scrolls */
+        .gallery-section.has-content::before {
+            height: 100%;
+        }
+
+        /* Grids */
+        .grid-2col,
+        .grid-3col,
+        .grid-masonry {
+            margin-bottom: 0;
+        }
+
+        .grid-2col .media-item {
+            width: 50%;
+        }
+
+        .grid-3col .media-item {
+            width: 33.333%;
+        }
+
+        .grid-masonry .media-item {
+            width: 33.333%;
+        }
+
+        /* Media Items */
+        .media-item {
+            position: relative;
+            background: transparent;
+            border: none;
+            overflow: hidden;
+            cursor: pointer;
+            display: block;
+        }
+
+        .image-slot {
+            width: 100%;
+            height: auto;
+            background: transparent;
+            display: block;
+            position: relative;
+            line-height: 0;
+            font-size: 0;
+        }
+
+        .image-slot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .video-slot {
+            width: 100%;
+            height: auto;
+            background: transparent;
+            display: block;
+            position: relative;
+            line-height: 0;
+            font-size: 0;
+        }
+
+        .video-slot video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Dark Sections */
+        .section-dark {
+            background: var(--bg-secondary);
+            color: var(--text-light);
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 999;
+        }
+
+        .progress-dot {
+            width: 24px;
+            height: 24px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.4;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .progress-dot.active {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .progress-dot:hover {
+            opacity: 0.7;
+            transform: scale(1.05);
+        }
+
+        /* Scrollbar */
+        .gallery-section::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .gallery-section::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-section::-webkit-scrollbar-thumb {
+            background: var(--accent-1);
+            border-radius: 3px;
+        }
+
+        .gallery-section::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-2);
+        }
+
+        /* Bouncing Button */
+        .bouncing-button {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            cursor: pointer;
+            z-index: 9999;
+            user-select: none;
+            transition: transform 0.1s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .bouncing-button img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        .bouncing-button:hover {
+            transform: scale(1.1);
+        }
+
+        .bouncing-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-logo">HEAD</div>
+        <div class="nav-menu">
+            <div class="nav-item active" data-section="0">TimeLine</div>
+            <div class="nav-item" data-section="1">Illustration</div>
+            <div class="nav-item" data-section="2">Animation</div>
+            <div class="nav-item" data-section="3">Other</div>
+            <div class="nav-item" data-section="4">Featured</div>
+        </div>
+    </nav>
+
+    <!-- little navigation -->
+    <div class="progress-indicator">
+        <div class="progress-dot active" style="background-image: url('image/red.png');" data-section="0"></div>
+        <div class="progress-dot" style="background-image: url('image/blue.png');" data-section="1"></div>
+        <div class="progress-dot" style="background-image: url('image/red.png');" data-section="2"></div>
+        <div class="progress-dot" style="background-image: url('image/blue.png');" data-section="3"></div>
+        <div class="progress-dot" style="background-image: url('image/red.png');" data-section="4"></div>
+    </div>
+
+    <!-- Bouncing Button - Change href to your link and src to your image -->
+    <a href="https://x.com/MrDog_2000" target="_blank" class="bouncing-button" id="bouncingButton">
+        <img src="image/star.gif" alt="">
+    </a>
+
+    <!-- Sections -->
+    <main class="main-content">
+        <div class="sections-container" id="sectionsContainer">
+
+            <section class="gallery-section" data-section="0" data-bg="" style="background-color: var(--bg-primary);">
+                <div class="section-content">
+                    <div class="grid-3col">
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G9FMRN2bQAAghoD?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot"><img
+                                    src="https://pbs.twimg.com/media/G85FJoDagAU7Wfv?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G8UyPQ0a4AErzfj?format=jpg&name=medium" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G4Y8eDPXUAAc15R?format=jpg&name=medium" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G1b2PW-WQAAax8E?format=jpg&name=900x900" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G0H0eLmXkAAexrU?format=jpg&name=medium" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/GuVdPm2bEAMBgl8?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/GuHFTLrW4AARfei?format=jpg&name=medium" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/GpBMObSX0AAzz0G?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/GoS7T0WWsAAC2GY?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="media-item">
+                            <div class="video-slot"></div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="gallery-section section-dark" data-section="1" data-bg=""
+                style="background-color: var(--bg-secondary);">
+                <div class="section-content">
+                    <div class="grid-3col">
+                       <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G9FMRN2bQAAghoD?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot"><img
+                                    src="https://pbs.twimg.com/media/G85FJoDagAU7Wfv?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G8UyPQ0a4AErzfj?format=jpg&name=medium" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G4Y8eDPXUAAc15R?format=jpg&name=medium" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G1b2PW-WQAAax8E?format=jpg&name=900x900" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/G0H0eLmXkAAexrU?format=jpg&name=medium" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/GuVdPm2bEAMBgl8?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/GuHFTLrW4AARfei?format=jpg&name=medium" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/GpBMObSX0AAzz0G?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="https://pbs.twimg.com/media/GoS7T0WWsAAC2GY?format=jpg&name=4096x4096" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+
+                        <div class="media-item">
+                            <div class="image-slot">
+                                <img src="" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-2col">
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="gallery-section" data-section="2" data-bg="" style="background-color: var(--bg-primary);">
+                <div class="section-content">
+                    <div class="grid-2col">
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="image/Final Animation.mp4" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="image/cleanning.mp4" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid-3col">
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="gallery-section section-dark" data-section="3" data-bg=""
+                style="background-color: var(--bg-secondary);">
+                <div class="section-content">
+                    <div class="grid-masonry">
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                    </div>
+                    <div class="grid-3col">
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="gallery-section" data-section="4" data-bg="" style="background-color: var(--bg-primary);">
+                <div class="section-content">
+                    <div class="grid-2col">
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="video-slot">
+                                <video src="" autoplay loop muted playsinline></video>
+                            </div>
+                        </div>
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                    </div>
+                    <div class="grid-3col">
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                        <div class="media-item">
+                            <div class="image-slot"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script>
+        const sectionsContainer = document.getElementById('sectionsContainer');
+        const navItems = document.querySelectorAll('.nav-item');
+        const progressDots = document.querySelectorAll('.progress-dot');
+        const sections = document.querySelectorAll('.gallery-section');
+
+        let currentSection = 0;
+        let isTransitioning = false;
+        let masonryInstances = [];
+
+        // Initialize Masonry
+        function initMasonry() {
+            if (typeof Masonry === 'undefined') return;
+
+            const grids = document.querySelectorAll('.grid-2col, .grid-3col, .grid-masonry');
+
+            grids.forEach(grid => {
+                const masonry = new Masonry(grid, {
+                    itemSelector: '.media-item',
+                    columnWidth: '.media-item',
+                    percentPosition: true,
+                    gutter: 0,
+                    transitionDuration: 0
+                });
+
+                masonryInstances.push(masonry);
+
+                if (typeof imagesLoaded !== 'undefined') {
+                    imagesLoaded(grid, () => masonry.layout());
+                }
+            });
+        }
+
+        // Check scroll position
+        function isAtBottom(el) {
+            return Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) < 5;
+        }
+
+        function isAtTop(el) {
+            return el.scrollTop < 5;
+        }
+
+        // Handle scrolling
+        sections.forEach((section) => {
+            section.addEventListener('wheel', (e) => {
+                if (isTransitioning) return;
+
+                const atBottom = isAtBottom(section);
+                const atTop = isAtTop(section);
+
+                if (e.deltaY > 0 && atBottom && currentSection < sections.length - 1) {
+                    e.preventDefault();
+                    currentSection++;
+                    scrollToSection(currentSection);
+                    sections[currentSection].scrollTop = 0;
+                } else if (e.deltaY < 0 && atTop && currentSection > 0) {
+                    e.preventDefault();
+                    currentSection--;
+                    scrollToSection(currentSection);
+                    sections[currentSection].scrollTop = sections[currentSection].scrollHeight;
+                }
+            }, { passive: false });
+        });
+
+        function scrollToSection(index) {
+            isTransitioning = true;
+
+            const sectionWidth = window.innerWidth - 50;
+            const scrollPosition = index * sectionWidth;
+
+            sectionsContainer.style.transform = `translateX(-${scrollPosition}px)`;
+
+            updateActiveStates(index);
+
+            setTimeout(() => {
+                if (masonryInstances.length > 0) {
+                    masonryInstances.forEach(m => m.layout());
+                }
+                isTransitioning = false;
+            }, 800);
+        }
+
+        function updateActiveStates(index) {
+            navItems.forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+
+            progressDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // Navigation clicks
+        navItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentSection = index;
+                scrollToSection(currentSection);
+                sections[currentSection].scrollTop = 0;
+            });
+        });
+
+        // Progress dots clicks
+        progressDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                currentSection = index;
+                scrollToSection(currentSection);
+                sections[currentSection].scrollTop = 0;
+            });
+        });
+
+        // Logo click
+        document.querySelector('.nav-logo').addEventListener('click', () => {
+            currentSection = 0;
+            scrollToSection(0);
+            sections[0].scrollTop = 0;
+        });
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            scrollToSection(currentSection);
+            if (masonryInstances.length > 0) {
+                masonryInstances.forEach(m => m.layout());
+            }
+        });
+
+        // Initialize
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        function init() {
+            initMasonry();
+            applyBackgroundImages();
+        }
+
+        // Apply background images to sections with multiply blend mode
+        function applyBackgroundImages() {
+            sections.forEach(section => {
+                const bgImage = section.getAttribute('data-bg');
+                if (bgImage) {
+                    section.style.setProperty('--bg-image', `url('${bgImage}')`);
+                    section.classList.add('has-content');
+                }
+            });
+        }
+
+        // Bouncing Button Logic - DVD Style
+        const bouncingButton = document.getElementById('bouncingButton');
+        let x = Math.random() * (window.innerWidth - 120);
+        let y = Math.random() * (window.innerHeight - 120);
+        const buttonSize = 300;
+        const speed = 2; // DVD screensaver speed
+        
+        // DVD bounces at 45-degree angles - only diagonal movement
+        let velocityX = speed;
+        let velocityY = speed;
+
+        function animateBounce() {
+            x += velocityX;
+            y += velocityY;
+
+            // Check collision with edges and bounce - DVD style (perfect reflection)
+            if (x <= 0 || x >= window.innerWidth - buttonSize) {
+                velocityX = -velocityX;
+                x = x <= 0 ? 0 : window.innerWidth - buttonSize;
+            }
+
+            if (y <= 0 || y >= window.innerHeight - buttonSize) {
+                velocityY = -velocityY;
+                y = y <= 0 ? 0 : window.innerHeight - buttonSize;
+            }
+
+            bouncingButton.style.left = x + 'px';
+            bouncingButton.style.top = y + 'px';
+
+            requestAnimationFrame(animateBounce);
+        }
+
+        // Start animation
+        animateBounce();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            // Keep button within bounds after resize
+            if (x > window.innerWidth - buttonSize) {
+                x = window.innerWidth - buttonSize;
+            }
+            if (y > window.innerHeight - buttonSize) {
+                y = window.innerHeight - buttonSize;
+            }
+        });
+    </script>
+</body>
+
+</html>
