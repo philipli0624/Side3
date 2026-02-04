@@ -8,15 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fira+Code:wght@300;400;500&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js"></script>
-   
+
     <style>
         :root {
             --nav-width: 50px;
             --bg-primary: #f5f5f0;
-            --bg-secondary: #2d2d2d;
-            --accent-1: #6d5dff;
+            --bg-secondary: #121212;
+            --accent-1: #8377f7;
             --accent-2: #ff2e63;
-            --text-dark: #1a1a1a;
+            --text-dark: #121212;
             --text-light: #ffffff;
         }
 
@@ -34,7 +34,7 @@
             height: 100vh;
         }
 
-        /* Navigation Bar //////////////////////////////////////////////////////*/
+        /* Navigation Bar */
         .nav-bar {
             position: fixed;
             left: 0;
@@ -85,7 +85,7 @@
             writing-mode: vertical-rl;
             text-orientation: mixed;
             font-size: clamp(0.75rem, 1.5vh, 1rem);
-            color: #888;
+            color: #b6b5b5;
             letter-spacing: 0.15em;
             text-transform: uppercase;
             padding: 0.5rem;
@@ -121,7 +121,40 @@
             background: var(--accent-2);
         }
 
-        /* Main stuff ///////////////////////////////////////////////////////////////////////*/
+        /* Responsive adjustments for short windows */
+        @media (max-height: 600px) {
+            .nav-logo {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .nav-item {
+                font-size: 0.65rem;
+                padding: 0.3rem;
+            }
+        }
+
+        @media (max-height: 400px) {
+            .nav-logo {
+                font-size: 0.8rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .nav-menu {
+                gap: 0.5rem;
+            }
+
+            .nav-item {
+                font-size: 0.55rem;
+                padding: 0.2rem;
+            }
+        }
+
+        /* Main stuff */
         .main-content {
             margin-left: var(--nav-width);
             height: 100vh;
@@ -147,7 +180,6 @@
             scroll-behavior: smooth;
         }
 
-        /* backgroudnd testing ///////////////////////////////////// */
         .gallery-section::before {
             content: '';
             position: absolute;
@@ -162,10 +194,6 @@
             mix-blend-mode: multiply;
             pointer-events: none;
             z-index: 0;
-        }
-
-        /* back ground extension with view port code////////////////////////////// */
-        .gallery-section::before {
             height: auto;
             min-height: 100vh;
         }
@@ -194,12 +222,11 @@
             display: block;
         }
 
-    
         .gallery-section.has-content::before {
             height: 100%;
         }
 
-        /* Grids ///////////////////////////////////////////////////////////////////////////*/
+        /* Grids */
         .grid-2col,
         .grid-3col,
         .grid-masonry {
@@ -218,7 +245,7 @@
             width: 33.333%;
         }
 
-        /* Media Items/////////////////////////////////////////////////////////////////// */
+        /* Media Items */
         .media-item {
             position: relative;
             background: transparent;
@@ -260,13 +287,13 @@
             display: block;
         }
 
-        /* Dark background Sections//////////////////////////////////////////////////////////////// */
+        /* Dark background Sections */
         .section-dark {
             background: var(--bg-secondary);
             color: var(--text-light);
         }
 
-        /* Tiny navigation bar */
+        /* Progress indicator */
         .progress-indicator {
             position: fixed;
             bottom: 2rem;
@@ -277,8 +304,8 @@
         }
 
         .progress-dot {
-            width: 24px;
-            height: 24px;
+            width: 40px;
+            height: 40px;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -297,7 +324,7 @@
             transform: scale(1.05);
         }
 
-        /* Scrollbar on each page///////////////////////////////////////////////////////////////////*/
+        /* Scrollbar */
         .gallery-section::-webkit-scrollbar {
             width: 6px;
         }
@@ -315,7 +342,7 @@
             background: var(--accent-2);
         }
 
-        /* Bouncing Button Testing //////////////////////////////////////// */
+        /* Bouncing Button */
         .bouncing-button {
             position: fixed;
             width: 300px;
@@ -342,91 +369,81 @@
         .bouncing-button:active {
             transform: scale(0.95);
         }
+
+        /* About Section Styles */
+        .about-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 4rem 6rem;
+        }
+
+        .about-text {
+            max-width: 800px;
+            font-size: clamp(1rem, 2vh, 1.2rem);
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .about-text h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.5rem, 6vh, 4rem);
+            color: var(--accent-1);
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+        }
+
+        .about-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text a {
+            color: var(--accent-2);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .about-text a:hover {
+            color: var(--accent-1);
+        }
     </style>
 </head>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <body>
-    <!-- Navigation //////////////////////////////////////////////////////////-->
+    <!-- Navigation -->
     <nav class="nav-bar">
-        <div class="nav-logo">HEAD</div>
+        <div class="nav-logo">Front</div>
         <div class="nav-menu">
             <div class="nav-item active" data-section="0">TimeLine</div>
             <div class="nav-item" data-section="1">Illustration</div>
             <div class="nav-item" data-section="2">Animation</div>
             <div class="nav-item" data-section="3">Other</div>
             <div class="nav-item" data-section="4">Featured</div>
+            <div class="nav-item" data-section="5">About</div>
         </div>
     </nav>
 
-    <!-- little navigation ////////////////////////////////////////////////////-->
+    <!-- Progress indicator -->
     <div class="progress-indicator">
-        <div class="progress-dot active" style="background-image: url('image/red.png');" data-section="0"></div>
-        <div class="progress-dot" style="background-image: url('image/blue.png');" data-section="1"></div>
-        <div class="progress-dot" style="background-image: url('image/red.png');" data-section="2"></div>
-        <div class="progress-dot" style="background-image: url('image/blue.png');" data-section="3"></div>
-        <div class="progress-dot" style="background-image: url('image/red.png');" data-section="4"></div>
+        <div class="progress-dot active" style="background-image: url('image/01.png');" data-section="0"></div>
+        <div class="progress-dot" style="background-image: url('image/02.png');" data-section="1"></div>
+        <div class="progress-dot" style="background-image: url('image/03.png');" data-section="2"></div>
+        <div class="progress-dot" style="background-image: url('image/04.png');" data-section="3"></div>
+        <div class="progress-dot" style="background-image: url('image/05.png');" data-section="4"></div>
+        <div class="progress-dot" style="background-image: url('image/06.png');" data-section="5"></div>
     </div>
 
-    <!-- Bouncing Button test /////////////////////////////////////////////////////////////-->
+    <!-- Bouncing Button -->
     <a href="https://x.com/MrDog_2000" target="_blank" class="bouncing-button" id="bouncingButton">
         <img src="image/star.gif" alt="">
     </a>
 
-    <!-- ///////////////////////////////////////////////MAIN BEGINS ////////////////////////////////////////////////////////////////// -->
+    <!-- MAIN CONTENT -->
     <main class="main-content">
         <div class="sections-container" id="sectionsContainer">
 
+            <!-- SECTION 0: TimeLine -->
             <section class="gallery-section" data-section="0" data-bg="" style="background-color: var(--bg-primary);">
                 <div class="section-content">
                     <div class="grid-3col">
@@ -435,94 +452,29 @@
                                 <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
-                        <div class="media-item">
-                            <div class="image-slot"><img
-                                    src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
+                                <img src="https://pbs.twimg.com/media/G4zfyVLXYAAOPx7?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
+                                <img src="https://pbs.twimg.com/media/G2oLG6AWoAA6T8P?format=jpg&name=large" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
+                                <img src="https://pbs.twimg.com/media/GbJXWvCW8AAPbkh?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
+                                <img src="https://pbs.twimg.com/media/GmX7b-UXQAAe1s-?format=png&name=medium" alt="">
                             </div>
                         </div>
                     </div>
@@ -537,117 +489,46 @@
                 </div>
             </section>
 
+            <!-- SECTION 1: Illustration -->
             <section class="gallery-section section-dark" data-section="1" data-bg=""
                 style="background-color: var(--bg-secondary);">
                 <div class="section-content">
                     <div class="grid-3col">
-                       <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot"><img
-                                    src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
                             </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-2col">
-                        <div class="media-item">
-                            <div class="image-slot"></div>
-                        </div>
-                        <div class="media-item">
-                            <div class="image-slot"></div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- SECTION 2: Animation -->
             <section class="gallery-section" data-section="2" data-bg="" style="background-color: var(--bg-primary);">
                 <div class="section-content">
                     <div class="grid-2col">
@@ -661,37 +542,11 @@
                                 <video src="image/cleanning.mp4" autoplay loop muted playsinline></video>
                             </div>
                         </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="grid-3col">
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
 
+            <!-- SECTION 3: Other -->
             <section class="gallery-section section-dark" data-section="3" data-bg=""
                 style="background-color: var(--bg-secondary);">
                 <div class="section-content">
@@ -701,97 +556,39 @@
                                 <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
-                        <div class="media-item">
-                            <div class="image-slot"><img
-                                    src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
                             </div>
                         </div>
-
                         <div class="media-item">
                             <div class="image-slot">
                                 <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
                             </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gwmdmz5asAAYRCO?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-
-                        <div class="media-item">
-                            <div class="image-slot">
-                                <img src="https://pbs.twimg.com/media/Gy6wNrAboAAPbp7?format=jpg&name=4096x4096" alt="">
-                            </div>
-                        </div>
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <div class="image-slot"></div>
-                        </div>
-                    </div>
-                    <div class="grid-3col">
-                        <div class="media-item">
-                            <div class="image-slot"></div>
-                        </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <div class="image-slot"></div>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- SECTION 4: Featured -->
             <section class="gallery-section" data-section="4" data-bg="" style="background-color: var(--bg-primary);">
                 <div class="section-content">
-                    <div class="grid-3col">
+                    <div class="grid-2col">
                         <div class="media-item">
                             <div class="video-slot">
                                 <video src="image/Final Animation.mp4" autoplay loop muted playsinline></video>
@@ -802,121 +599,38 @@
                                 <video src="image/cleanning.mp4" autoplay loop muted playsinline></video>
                             </div>
                         </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
                     </div>
-                    <div class="grid-3col">
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
-                        </div>
-                        <div class="media-item">
-                            <div class="video-slot">
-                                <video src="" autoplay loop muted playsinline></video>
-                            </div>
+                </div>
+            </section>
+
+            <!-- SECTION 5: About -->
+            <section class="gallery-section section-dark" data-section="5" data-bg=""
+                style="background-color: var(--bg-secondary);">
+                <div class="section-content">
+                    <div class="about-content">
+                        <div class="about-text">
+                            <h2>About</h2>
+                            <p>
+                               Illustration, animation
+                        
+                            </p>
+                            <p>
+                              
+                            </p>
+                            <p>
+                                Email: <a href="mailto: mrdog2000md@gmail.com">mrdog2000md@gmail.com</a>
+                            </p>
+                            <p>
+                               X/Twitter: <a href="https://x.com/MrDog_2000" target="_blank">@MrDog_2000</a>
+                            </p>
                         </div>
                     </div>
                 </div>
             </section>
 
-
         </div>
     </main>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     <script>
         const sectionsContainer = document.getElementById('sectionsContainer');
         const navItems = document.querySelectorAll('.nav-item');
@@ -927,7 +641,7 @@
         let isTransitioning = false;
         let masonryInstances = [];
 
-        ///////////////////  Masonry library for layout////////////////////////////
+        // Masonry initialization
         function initMasonry() {
             if (typeof Masonry === 'undefined') return;
 
@@ -950,7 +664,7 @@
             });
         }
 
-        // scrolling functions /////////////////////////////////////////
+        // Scroll detection
         function isAtBottom(el) {
             return Math.abs(el.scrollHeight - el.scrollTop - el.clientHeight) < 5;
         }
@@ -959,7 +673,7 @@
             return el.scrollTop < 5;
         }
 
-        // vertical scrolling thhreashhold  //////////////////////////////////////////////////////////
+        // Vertical scrolling between sections
         sections.forEach((section) => {
             section.addEventListener('wheel', (e) => {
                 if (isTransitioning) return;
@@ -1018,7 +732,7 @@
             });
         });
 
-        // littl enavigation  clicks//////////////////////////////////////////////////////////
+        // Progress dots clicks
         progressDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 currentSection = index;
@@ -1027,7 +741,7 @@
             });
         });
 
-        // title (HEAD) click////////////////////////////////////////////////
+        // Logo click
         document.querySelector('.nav-logo').addEventListener('click', () => {
             currentSection = 0;
             scrollToSection(0);
@@ -1054,7 +768,7 @@
             applyBackgroundImages();
         }
 
-        // Apply background images to sections with multiply blend mode
+        // Apply background images
         function applyBackgroundImages() {
             sections.forEach(section => {
                 const bgImage = section.getAttribute('data-bg');
@@ -1065,13 +779,13 @@
             });
         }
 
-        // Bouncing  /////////////////////////////////////////////////////
+        // Bouncing button animation
         const bouncingButton = document.getElementById('bouncingButton');
         let x = Math.random() * (window.innerWidth - 120);
         let y = Math.random() * (window.innerHeight - 120);
         const buttonSize = 300;
-        const speed = 2; 
-    
+        const speed = 2;
+
         let velocityX = speed;
         let velocityY = speed;
 
@@ -1079,7 +793,6 @@
             x += velocityX;
             y += velocityY;
 
-    //collision detection with window edges
             if (x <= 0 || x >= window.innerWidth - buttonSize) {
                 velocityX = -velocityX;
                 x = x <= 0 ? 0 : window.innerWidth - buttonSize;
@@ -1096,10 +809,9 @@
             requestAnimationFrame(animateBounce);
         }
 
-    
         animateBounce();
 
-// resizing for windows  /////////////////////////////////////////////////////
+        // Resize handler for bouncing button
         window.addEventListener('resize', () => {
             if (x > window.innerWidth - buttonSize) {
                 x = window.innerWidth - buttonSize;
